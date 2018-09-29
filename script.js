@@ -16,26 +16,30 @@ testNum.then(function (response) {
   console.log(num + ' is less than 10, error!')
 })
 
-makeAllCaps = new Promise(function (resolve, reject) {
-  let words = ['worms', 'birds', 'dogs']
-  if (words.every(word => typeof word === 'string')) {
-    const upperCase = words.map(word => word.toUpperCase())
-    resolve(upperCase);
-  }
-  else {
-    reject('No, the array you passed in contained an element that was not a string!');
-  }
-})
-makeAllCaps.then((words) => sortAllWords(words))
-makeAllCaps.then((result) => console.log(result))
-makeAllCaps.catch((reject) => console.log(reject))
+let words = ['worms', 'birds', 'dogs']
 
+function makeAllCaps(words) {
+  return new Promise(function (resolve, reject) {
+    if (words.every(word => typeof word === 'string')) {
+      const upperCase = words.map(word => word.toUpperCase())
+      resolve(upperCase);
+    }
+    else {
+      reject('No, the array you passed in contained an element that was not a string!');
+    }
+  })
+}
 
 sortAllWords = (words) => {
-  new Promise(function
+  return new Promise(function
     (resolve, reject) {
     resolve(words.sort());
   })
-  .then((words) => words)
-  .catch((reject) => console.log('Items could not be sorted!'))
+    .then((words) => words)
+    .catch((reject) => console.log('Items could not be sorted!'))
 }
+
+makeAllCaps(words)
+  .then((cappedWords) => sortAllWords(cappedWords))
+  .then((sortedWords) => console.log(sortedWords))
+  .catch((error) => console.log('No, the array you passed in contained an element that was not a string!'))
