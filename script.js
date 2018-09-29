@@ -16,26 +16,28 @@ testNum.then(function (response) {
   console.log(num + ' is less than 10, error!')
 })
 
-var words = ['worms', 'arms', 'dogs']
 
 makeAllCaps = new Promise(function (resolve, reject) {
-  // A mock async action using setTimeout
-  setTimeout(function () { resolve(words); }, 1000);
-})
-  .then(function (words) { return words.map(word => word.toUpperCase()) })
-  .then(function (result) { console.log(result) })
-
-
-
-sortAllWords = new Promise(function (resolve, reject) {
+  let words = ['worms', 'birds', 'dogs']
   if (words.every(word => typeof word === 'string')) {
-    resolve('Success!');
+    setTimeout(() => resolve(words), 1000);
   }
   else {
-    reject('Failure!');
+    reject('No, the array you passed in contained an element that was not a string!');
   }
-
 })
-  .then(function (resolve) { console.log('success') })
-  .catch(function (reject) { console.log('No, the array you passed in contained an element that was not a string!') })
+makeAllCaps.then((words) => sortAllWords(words))
+makeAllCaps.then(function (result) { console.log(result) })
+makeAllCaps.catch(function (reject) { console.log(reject) })
 
+
+function sortAllWords(words) {
+  new Promise(function
+    (resolve, reject) {
+    resolve(words.sort());
+  })
+  .then(function (words) { return words })
+  .catch(function (reject) { console.log('No, the array you passed in contained an element that was not a string!') })
+}
+
+console.log(makeAllCaps)
